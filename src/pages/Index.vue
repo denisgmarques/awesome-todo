@@ -12,6 +12,7 @@
       @keyup="handleKeyup"
       @keyup.enter="alertMessage"
       :class="{ 'error' : message.length > 22 }"
+      ref="messageInput"
     />
     <button @click="clearMessage">Clear</button>
 
@@ -77,37 +78,38 @@ export default {
     }
   },
 
-  beforeCreate () {
-    console.log('before create')
-  },
+  // beforeCreate () {
+  //   console.log('before create')
+  // },
 
-  created () {
-    console.log('created')
-  },
+  // created () {
+  //   console.log('created')
+  // },
 
-  beforeMount () {
-    console.log('before mount')
-  },
+  // beforeMount () {
+  //   console.log('before mount')
+  // },
 
   mounted () {
-    console.log('mounted')
-  },
-
-  beforeUpdate () {
-    console.log('before update')
-  },
-
-  updated () {
-    console.log('updated')
-  },
-
-  beforeDestroy () {
-    console.log('before destroy')
-  },
-
-  destroyed () {
-    console.log('destroyed')
+    console.log(this.$refs)
+    this.$refs.messageInput.className = 'bg-green'
   }
+
+  // beforeUpdate () {
+  //   console.log('before update')
+  // },
+
+  // updated () {
+  //   console.log('updated')
+  // },
+
+  // beforeDestroy () {
+  //   console.log('before destroy')
+  // },
+
+  // destroyed () {
+  //   console.log('destroyed')
+  // }
 }
 </script>
 
