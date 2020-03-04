@@ -20,34 +20,108 @@
   	<div class="form q-mb-lg">
 	  	<div class="row q-mb-md">
 	  		<label>Name:</label>
-	  		<input type="text"> 
-	  		<label class="error">Please enter 15 characters or less</label>
+	  		<input
+					type="text"
+					v-model="name"
+					:class="{ 'error' : !name || name.length > 15 }"
+					v-autofocus
+				> 
+	  		<label
+					class="error"
+					v-show="!name || name.length > 15"
+				>Please enter 15 characters or less</label>
 	  	</div>
 	  	<div class="row q-mb-md">
 		  	<label>Age:</label>
-		  	<input type="number">
-	  		<label class="error">Please enter an age between 1 - 100</label>
+		  	<input
+					type="number"
+					v-model="age"
+					:class="{ 'error' : age<1||age>100 }"
+				>
+	  		<label
+					class="error"
+					v-show="age<1||age>100"
+				>Please enter an age between 1 - 100</label>
 		  </div>
 		  <div class="row">
-		  	<button>Generate Random Person</button>
+		  	<button
+					@click="getRandomData"
+				>Generate Random Person</button>
 		  </div>
   	</div>
-  	<div class="description q-mb-lg">
-  		<p>My name is <b>Danny</b> and I'm <b>36</b> years old.</p>
-  		<p>In 10 years I will be <b>46</b>.</p>
-  		<p>My name is <b>5</b> characters long.</p>
-  		<p>My name in uppercase is <b>DANNY</b>.</p>
+  	<div
+			class="description q-mb-lg"
+			v-show="formOk"
+		>
+  		<p>My name is <b>{{ name }}</b> and I'm <b>{{ age }}</b> years old.</p>
+  		<p>In 10 years I will be <b>{{ agePlusTen }}</b>.</p>
+  		<p>My name is <b>{{ name.replace(/\s/g, '').length }}</b> characters long.</p>
+  		<p>My name in uppercase is <b>{{ name | nameUppercase }}</b>.</p>
   	</div>
-		<div class="no-details">
+		<div
+			class="no-details"
+			v-show="!formOk"
+		>
 			<p>Please enter a name and age.</p>
 		</div>
   </q-page>
 </template>
 
 <script>
-	export default {
+export default {
+	data () {
+		return {
+			name: '',
+			age: 0,
+			nameArr: ["Denis", "Silvia", "Matheus", "Joao", "Marquinho", "Mel"]
+		}
+	},
 
-	}
+  computed: {
+    agePlusTen () {
+      return Number(this.age) + Number(10)
+		},
+		
+		nameLength () {
+			return this.name.replace(/\s/g, '').length
+		},
+
+		formOk () {
+			if (this.name && this.name.length > 0 && this.age > 0) {
+				return true
+			} else {
+				return false
+			}
+		}
+	},
+
+	methods: {
+
+		getRandomData () {
+			this.name = this.nameArr[Math.floor(Math.random() * Math.floor(this.nameArr.length))]
+			this.age = Math.floor(Math.random() * 100) + 1
+		}
+
+	},
+	
+	filters: {
+    nameUppercase (value) {
+      return value.toUpperCase()
+    }
+	},
+
+	directives: {
+    autofocus: {
+      inserted (el) {
+        el.focus()
+      }
+    }
+  },
+	
+	created () {
+    this.getRandomData()
+  }
+}
 </script>
 
 <style>
