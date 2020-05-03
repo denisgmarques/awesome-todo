@@ -1,9 +1,10 @@
 <template>
   <q-page class="q-pa-md">
     <q-list
+      v-if="Object.keys(tasks).length"
       separator
       bordered>
-      <q-item-label header>Tasklist</q-item-label>
+      <!-- <q-item-label header>Tasklist</q-item-label> -->
       <task
         v-for="(task, key) in tasks"
         :key="key"
@@ -23,7 +24,7 @@
     </div>
 
     <q-dialog v-model="showAddTask">
-      <add-task />
+      <add-task @close="showAddTask = false" />
     </q-dialog>
   </q-page>
 </template>
@@ -34,7 +35,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      showAddTask: true
+      showAddTask: false
     }
   },
   computed: {
