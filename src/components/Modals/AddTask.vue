@@ -1,52 +1,13 @@
 <template>
   <q-card>
-    <q-card-section
-      class="row"
-    >
-      <div class="text-h6">Add Task </div>
-      <q-space />
-      <q-btn
-        flat
-        round
-        dense
-        icon="close"
-        v-close-popup
-      />
-    </q-card-section>
+    <modal-header>Add Task</modal-header>
 
     <q-form @submit.prevent="submitForm">
       <q-card-section>
-        <div class="row q-mb-sm">
-          <q-input
-            v-model="taskToSubmit.name"
-            :rules="[val => !!val || 'Field is required']"
-            ref="name"
-            outlined
-            class="col"
-            autofocus
-            clearable
-            label="Name" />
-        </div>
 
-        <div
-          class="row q-mb-sm">
-          <q-input
-            v-model="taskToSubmit.dueDate"
-            outlined
-            clearable
-            label="Due date">
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy>
-                  <q-date
-                    v-model="taskToSubmit.dueDate"
-                    mask="DD/MM/YYYY"
-                  />
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </div>
+        <modal-task-name :name.sync="taskToSubmit.name" />
+
+        <modal-due-date :dueDate.sync="taskToSubmit.dueDate" />
 
         <div
           v-if="taskToSubmit.dueDate"
@@ -79,6 +40,8 @@
           type="submit"
         />
       </q-card-actions>
+
+      <pre>{{ $refs }}</pre>
     </q-form>
 
   </q-card>
@@ -102,7 +65,7 @@ export default {
   methods: {
     ...mapActions('tasks', ['addTask']),
     submitForm () {
-      if (!this.$refs.name.hasError) {
+      if (this.submitTask.name) { // if (!this.$refs.name.hasError) {
         this.submitTask()
       }
     },
@@ -111,6 +74,12 @@ export default {
       this.addTask(this.taskToSubmit)
       this.$emit('close')
     }
+  },
+
+  components: {
+    'modal-header': require('components/Tasks/Shared/ModalHeader.vue').default,
+    'modal-task-name': require('components/Tasks/Shared/ModalTaskName.vue').default,
+    'modal-due-date': require('components/Tasks/Shared/ModalDueDate.vue').default
   }
 }
 </script>

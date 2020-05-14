@@ -35,7 +35,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      showAddTask: false
+      showAddTask: true
     }
   },
   computed: {
