@@ -54,7 +54,7 @@ export default {
 
   components: {
     task: require('components/Tasks/Task.vue').default,
-    addTask: require('components/Modals/AddTask.vue').default
+    addTask: require('components/Tasks/Modals/AddTask.vue').default
   }
 }
 </script>
